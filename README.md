@@ -47,7 +47,7 @@ Clone the repo and serve the folder with any static file server (opening
 avoids occasional file:// quirks):
 
 ```bash
-git clone https://github.com/your-username/open-letter.git
+git clone https://github.com/r0hnx/open-letter.git
 cd open-letter
 python3 -m http.server 8000
 # or: npx serve .
