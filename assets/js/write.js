@@ -18,10 +18,15 @@
     { key: "kraft", label: "Kraft" },
     { key: "aged", label: "Aged" },
   ];
+  const THEMES = [
+    { key: "", label: "Default" },
+    { key: "love", label: "Love Letter" },
+    { key: "valentine", label: "Valentine" },
+  ];
   const MAX_PHOTO_DIM = 480;
   const LONG_LINK_THRESHOLD = 1800;
 
-  const state = { hand: "caveat", ink: "navy", paper: "parchment", photo: null };
+  const state = { hand: "caveat", ink: "navy", paper: "parchment", theme: "", photo: null };
 
   const els = {
     toName: document.getElementById("toName"),
@@ -31,6 +36,7 @@
     handRow: document.getElementById("handRow"),
     inkRow: document.getElementById("inkRow"),
     paperRow: document.getElementById("paperRow"),
+    themeRow: document.getElementById("themeRow"),
     photoInput: document.getElementById("photoInput"),
     photoPreview: document.getElementById("photoPreview"),
     photoPreviewImg: document.getElementById("photoPreviewImg"),

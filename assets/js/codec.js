@@ -27,6 +27,7 @@ const OpenLetterCodec = (() => {
       h: letter.hand || "caveat",
       i: letter.ink || "navy",
       p: letter.paper || "parchment",
+      th: letter.theme || "",
       d: letter.date || new Date().toISOString().slice(0, 10),
       img: letter.photo || null,
     };
@@ -47,6 +48,7 @@ const OpenLetterCodec = (() => {
         hand: payload.h || "caveat",
         ink: payload.i || "navy",
         paper: payload.p || "parchment",
+        theme: payload.th || "",
         date: payload.d || "",
         photo: payload.img || null,
       };
