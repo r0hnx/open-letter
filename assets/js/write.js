@@ -18,15 +18,11 @@
     { key: "kraft", label: "Kraft" },
     { key: "aged", label: "Aged" },
   ];
-  const THEMES = [
-    { key: "", label: "Default" },
-    { key: "love", label: "Love Letter" },
-    { key: "valentine", label: "Valentine" },
-  ];
-  const MAX_PHOTO_DIM = 480;
+  const MAX_PHOTO_DIM = 420;
   const LONG_LINK_THRESHOLD = 1800;
+  const THEMES = OpenLetterThemes.list;
 
-  const state = { hand: "caveat", ink: "navy", paper: "parchment", theme: "", photo: null };
+  const state = { hand: "caveat", ink: "navy", paper: "parchment", theme: "classic", photo: null };
 
   const els = {
     toName: document.getElementById("toName"),
@@ -37,7 +33,9 @@
     inkRow: document.getElementById("inkRow"),
     paperRow: document.getElementById("paperRow"),
     themeRow: document.getElementById("themeRow"),
+    previewMotif: document.getElementById("previewMotif"),
     photoInput: document.getElementById("photoInput"),
+    photoUrlInput: document.getElementById("photoUrlInput"),
     photoPreview: document.getElementById("photoPreview"),
     photoPreviewImg: document.getElementById("photoPreviewImg"),
     removePhotoBtn: document.getElementById("removePhotoBtn"),
@@ -60,6 +58,21 @@
   };
 
   function buildSwatches() {
+    THEMES.forEach((t) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "swatch";
+      btn.dataset.key = t.key;
+      btn.setAttribute("aria-pressed", t.key === state.theme ? "true" : "false");
+      btn.innerHTML = `<span class="swatch-dot" style="background:${t.accentVar}"></span> ${t.icon} ${t.label}`;
+      btn.addEventListener("click", () => {
+        state.theme = t.key;
+        refreshSwatchGroup(els.themeRow, t.key);
+        updatePreview();
+      });
+      els.themeRow.appendChild(btn);
+    });
+
     HANDS.forEach((h) => {
       const btn = document.createElement("button");
       btn.type = "button";
@@ -124,6 +137,7 @@
 
     els.previewBody.textContent = els.body.value;
     els.previewSignature.textContent = els.fromName.value ? "— " + els.fromName.value : "";
+    els.previewMotif.textContent = OpenLetterThemes.get(state.theme).motif;
 
     if (state.photo) {
       els.previewPhotoWrap.hidden = false;
@@ -142,8 +156,20 @@
     return new Date().toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" });
   }
 
+  function encodeCanvas(canvas) {
+    // WebP is meaningfully smaller than JPEG at the same visual quality,
+    // which keeps the link shorter. Browsers that can't encode WebP
+    // silently hand back a PNG instead — detect that and fall back.
+    let dataUrl = canvas.toDataURL("image/webp", 0.62);
+    if (!dataUrl.startsWith("data:image/webp")) {
+      dataUrl = canvas.toDataURL("image/jpeg", 0.55);
+    }
+    return dataUrl;
+  }
+
   function handlePhotoFile(file) {
     if (!file || !file.type.startsWith("image/")) return;
+    els.photoUrlInput.value = "";
     const reader = new FileReader();
     reader.onload = (e) => {
       const img = new Image();
@@ -154,7 +180,7 @@
         canvas.height = Math.round(img.height * scale);
         const ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        state.photo = canvas.toDataURL("image/jpeg", 0.6);
+        state.photo = encodeCanvas(canvas);
         els.photoPreview.hidden = false;
         els.photoPreviewImg.src = state.photo;
         updatePreview();
@@ -164,14 +190,28 @@
     reader.readAsDataURL(file);
   }
 
+  function handlePhotoUrl(value) {
+    const url = value.trim();
+    if (!url) {
+      if (!els.photoInput.files[0]) { state.photo = null; els.photoPreview.hidden = true; updatePreview(); }
+      return;
+    }
+    els.photoInput.value = "";
+    state.photo = url;
+    els.photoPreview.hidden = false;
+    els.photoPreviewImg.src = url;
+    updatePreview();
+  }
+
   function removePhoto() {
     state.photo = null;
     els.photoInput.value = "";
+    els.photoUrlInput.value = "";
     els.photoPreview.hidden = true;
     updatePreview();
   }
 
-  function generateLetter() {
+  async function generateLetter() {
     const letter = {
       to: els.toName.value.trim(),
       from: els.fromName.value.trim(),
@@ -179,6 +219,7 @@
       hand: state.hand,
       ink: state.ink,
       paper: state.paper,
+      theme: state.theme,
       date: new Date().toISOString().slice(0, 10),
       photo: state.photo,
     };
@@ -188,7 +229,18 @@
       return;
     }
 
-    const url = OpenLetterCodec.buildShareUrl(letter);
+    els.generateBtn.disabled = true;
+    const originalLabel = els.generateBtn.textContent;
+    els.generateBtn.textContent = "Sealing…";
+
+    let url;
+    try {
+      url = await OpenLetterCodec.buildShareUrl(letter);
+    } finally {
+      els.generateBtn.disabled = false;
+      els.generateBtn.textContent = originalLabel;
+    }
+
     els.shareLink.value = url;
     els.previewLetterLink.href = url;
 
@@ -228,6 +280,7 @@
     els.fromName.addEventListener("input", updatePreview);
     els.body.addEventListener("input", () => { updatePreview(); updateLengthHint(); });
     els.photoInput.addEventListener("change", (e) => handlePhotoFile(e.target.files[0]));
+    els.photoUrlInput.addEventListener("input", (e) => handlePhotoUrl(e.target.value));
     els.removePhotoBtn.addEventListener("click", removePhoto);
     els.generateBtn.addEventListener("click", generateLetter);
     els.copyLinkBtn.addEventListener("click", copyLink);

@@ -26,6 +26,12 @@
   --ok: #3f6b4a;
   --surface-0: #fffdf8;       /* near-white card surface, e.g. inputs */
 
+  /* ---- theme accents (occasion presets — see themes.js) ---- */
+  --c-love: #b83b5e;
+  --c-valentine: #c81d4a;
+  --c-valentine-gold: #e0b354;
+  --c-birthday: #2f7a6d;
+
   /* ---- type families ---- */
   --font-display: "Fraunces", "Iowan Old Style", ui-serif, Georgia, serif;
   --font-ui: "Karla", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;

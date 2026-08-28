@@ -17,6 +17,7 @@
 }
 .photo-preview { display: flex; align-items: center; gap: var(--space-3); }
 .photo-preview img { width: 72px; height: 72px; object-fit: cover; border-radius: var(--radius-md); border: 1px solid rgba(233,223,199,0.25); }
+.field-or { font-size: var(--step-caption); opacity: 0.45; margin: 0; text-align: center; }
 
 .actions { margin-top: var(--space-6); }
 
@@ -24,6 +25,7 @@
 .composer-preview { position: sticky; top: var(--space-5); align-self: start; }
 .preview-label { font-size: var(--step-caption); text-transform: uppercase; letter-spacing: 0.1em; color: var(--chrome-fg, #e9dfc7); opacity: 0.55; margin-bottom: var(--space-3); }
 #previewCard { min-height: 420px; transform: rotate(-0.6deg); }
+.preview-motif { position: absolute; top: var(--space-4); left: var(--space-5); font-size: 1.3rem; opacity: 0.4; margin: 0; }
 .preview-date { position: absolute; top: var(--space-4); right: var(--space-5); font-size: var(--step-caption); opacity: 0.6; }
 .preview-body {
   font-size: 1.35rem; line-height: 1.6; white-space: pre-wrap; margin-top: var(--space-5);

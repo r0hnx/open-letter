@@ -44,6 +44,11 @@ I know I don't write enough..." maxlength="4000"></textarea>
     </div>
 
     <div class="field">
+      <label id="themeLabel">Theme</label>
+      <div class="swatch-row" role="group" aria-labelledby="themeLabel" id="themeRow"></div>
+    </div>
+
+    <div class="field">
       <label id="handLabel">Handwriting</label>
       <div class="swatch-row" role="group" aria-labelledby="handLabel" id="handRow"></div>
     </div>
@@ -59,20 +64,17 @@ I know I don't write enough..." maxlength="4000"></textarea>
     </div>
 
     <div class="field">
-      <label id="themeLabel">Theme</label>
-      <div class="swatch-row" role="group" aria-labelledby="themeLabel" id="themeRow"></div>
-    </div>
-
-    <div class="field">
       <label for="photoInput">Photo (optional)</label>
       <div class="photo-field">
         <input type="file" id="photoInput" accept="image/*">
+        <p class="field-or">— or —</p>
+        <input type="text" id="photoUrlInput" placeholder="Paste a photo link instead (keeps the letter link short)">
         <div class="photo-preview" id="photoPreview" hidden>
           <img id="photoPreviewImg" alt="Attached photo preview">
           <button type="button" class="btn btn-quiet btn-sm" id="removePhotoBtn">Remove</button>
         </div>
       </div>
-      <p class="field-hint">Adds the photo straight into the link — keep it small, or skip it for a shorter link.</p>
+      <p class="field-hint">Uploading embeds the photo directly in the link (works forever, but makes the link longer). Pasting a link to a photo you've already put online (Google Photos, imgur, etc.) keeps the link short instead.</p>
     </div>
 
     <div class="actions">
@@ -84,6 +86,7 @@ I know I don't write enough..." maxlength="4000"></textarea>
     <p class="preview-label">Preview</p>
     <div class="paper-card paper--parchment" id="previewCard">
       <div class="grain"></div>
+      <p class="preview-motif" id="previewMotif"></p>
       <p class="preview-date" id="previewDate"></p>
       <div class="preview-photo-wrap" id="previewPhotoWrap" hidden>
         <img id="previewPhoto" alt="">
@@ -120,6 +123,7 @@ I know I don't write enough..." maxlength="4000"></textarea>
 
 <script src="assets/js/lz-string.min.js"></script>
 <script src="assets/js/codec.js"></script>
+<script src="assets/js/themes.js"></script>
 <script src="assets/js/write.js"></script>
 </body>
 </html>

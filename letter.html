@@ -32,9 +32,12 @@
     <p class="tap-hint">Tap the seal to open it</p>
   </section>
 
+  <div class="light-flash" id="lightFlash" aria-hidden="true"></div>
+
   <section id="paperStage" class="paper-stage" hidden>
     <div class="paper-card paper--parchment" id="letterPaper">
       <div class="grain"></div>
+      <p class="letter-motif" id="letterMotif" aria-hidden="true"></p>
       <p class="letter-date" id="letterDate"></p>
       <div class="letter-photo-wrap" id="letterPhotoWrap" hidden>
         <img id="letterPhoto" alt="A photo attached to the letter">
@@ -65,6 +68,7 @@
 
 <script src="assets/js/lz-string.min.js"></script>
 <script src="assets/js/codec.js"></script>
+<script src="assets/js/themes.js"></script>
 <script src="assets/js/letter.js"></script>
 </body>
 </html>

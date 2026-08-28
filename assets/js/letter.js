@@ -9,8 +9,10 @@
     envelope: document.getElementById("envelope"),
     envelopeAddress: document.getElementById("envelopeAddress"),
     sealBtn: document.getElementById("sealBtn"),
+    lightFlash: document.getElementById("lightFlash"),
     paperStage: document.getElementById("paperStage"),
     letterPaper: document.getElementById("letterPaper"),
+    letterMotif: document.getElementById("letterMotif"),
     letterDate: document.getElementById("letterDate"),
     letterBody: document.getElementById("letterBody"),
     letterSignature: document.getElementById("letterSignature"),
@@ -21,23 +23,30 @@
     emptyState: document.getElementById("emptyState"),
   };
 
-  const params = new URLSearchParams(location.search);
-  const letter = OpenLetterCodec.decode(params.get("d"));
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  if (!letter || !letter.body) {
-    els.emptyState.hidden = false;
-    document.title = "No letter here — Open Letter";
-    return;
-  }
+  (async () => {
+    const params = new URLSearchParams(location.search);
+    const letter = await OpenLetterCodec.decode(params.get("d"));
 
-  setupLetter(letter);
+    if (!letter || !letter.body) {
+      els.emptyState.hidden = false;
+      document.title = "No letter here — Open Letter";
+      return;
+    }
+
+    setupLetter(letter);
+  })();
 
   function setupLetter(letter) {
     document.title = (letter.to ? "A letter for " + letter.to : "You've got a letter") + " — Open Letter";
 
+    const theme = OpenLetterThemes.get(letter.theme);
+
     els.envelopeStage.hidden = false;
     els.envelopeAddress.textContent = "To, " + (letter.to || "you");
+    els.sealBtn.textContent = theme.icon;
+    els.sealBtn.style.setProperty("--seal-color", theme.accentVar);
 
     const handCls = HAND_MAP[letter.hand] || "hand-caveat";
     const inkCls = INK_MAP[letter.ink] || "ink-navy";
@@ -49,8 +58,10 @@
     els.letterSignature.classList.add(handCls, inkCls);
     els.penCursor.classList.add(inkCls);
     els.letterPaper.className = "paper-card " + paperCls;
+    els.letterPaper.appendChild(els.letterMotif);
     els.letterPaper.appendChild(els.penCursor); // keep cursor inside the (re-classed) card
 
+    els.letterMotif.textContent = theme.motif;
     els.letterDate.textContent = formatDate(letter.date);
     els.letterSignature.textContent = letter.from ? "— " + letter.from : "";
 
@@ -61,7 +72,7 @@
 
     const tokens = buildBodyTokens(els.letterBody, letter.body);
 
-    els.sealBtn.addEventListener("click", () => openEnvelope(tokens));
+    els.sealBtn.addEventListener("click", () => openEnvelope(tokens, theme));
   }
 
   function formatDate(iso) {
@@ -88,8 +99,9 @@
     return tokens;
   }
 
-  function openEnvelope(tokens) {
-    els.envelope.classList.add("is-open");
+  function openEnvelope(tokens, theme) {
+    els.sealBtn.disabled = true;
+
     const revealPaper = () => {
       els.envelopeStage.hidden = true;
       els.paperStage.hidden = false;
@@ -98,10 +110,63 @@
         startWriting(tokens);
       });
     };
+
     if (reduceMotion) {
       revealPaper();
-    } else {
-      setTimeout(revealPaper, 850);
+      return;
+    }
+
+    // 1. the seal cracks
+    els.sealBtn.classList.add("is-cracking");
+
+    setTimeout(() => {
+      // 2. the envelope lifts, the flap swings open, and the theme's
+      //    flourish bursts from where the seal was
+      els.envelope.classList.add("is-opening", "is-open");
+      spawnParticles(els.envelope, theme);
+
+      setTimeout(() => {
+        els.lightFlash.classList.add("is-flashing");
+      }, 400);
+
+      setTimeout(() => {
+        els.envelope.classList.remove("is-opening");
+        revealPaper();
+      }, 1050);
+    }, 400);
+  }
+
+  function spawnParticles(container, theme) {
+    const cfg = theme.particles;
+    for (let i = 0; i < cfg.count; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 0.5 + Math.random() * 0.5;
+      const dx = Math.cos(angle) * cfg.spreadX * dist;
+      const dy = -Math.abs(Math.sin(angle)) * cfg.spreadY * dist - cfg.spreadY * 0.3;
+      const rot = (Math.random() * 2 - 1) * 70;
+      const color = cfg.colors[i % cfg.colors.length];
+
+      const el = document.createElement("span");
+      el.className = "flourish-particle" + (cfg.shape === "confetti" ? " confetti" : "");
+      el.style.setProperty("--dx", dx.toFixed(1) + "px");
+      el.style.setProperty("--dy", dy.toFixed(1) + "px");
+      el.style.setProperty("--rot", rot.toFixed(1) + "deg");
+      el.style.animationDelay = Math.random() * cfg.spawnJitter + "ms";
+
+      if (cfg.shape === "confetti") {
+        const w = cfg.size * (0.6 + Math.random() * 0.5);
+        const h = w * (0.4 + Math.random() * 0.5);
+        el.style.width = w + "px";
+        el.style.height = h + "px";
+        el.style.background = color;
+      } else {
+        el.textContent = cfg.symbols[i % cfg.symbols.length];
+        el.style.fontSize = cfg.size + Math.random() * 4 + "px";
+        el.style.color = color;
+      }
+
+      container.appendChild(el);
+      el.addEventListener("animationend", () => el.remove());
     }
   }
 
@@ -121,16 +186,17 @@
         return;
       }
       const tok = tokens[idx];
-      let delay = 22 + Math.random() * 26;
+      // Paced like reading aloud, not typing — slow and a little uneven.
+      let delay = 55 + Math.random() * 45;
 
       if (tok.type === "char") {
         tok.el.classList.add("revealed");
         positionCursor(tok.el);
-        if (tok.value === " ") delay = 12 + Math.random() * 16;
-        else if (",;".includes(tok.value)) delay = 170 + Math.random() * 90;
-        else if (".!?".includes(tok.value)) delay = 260 + Math.random() * 150;
+        if (tok.value === " ") delay = 35 + Math.random() * 30;
+        else if (",;".includes(tok.value)) delay = 260 + Math.random() * 140;
+        else if (".!?".includes(tok.value)) delay = 420 + Math.random() * 220;
       } else {
-        delay = 320 + Math.random() * 160;
+        delay = 520 + Math.random() * 260;
       }
 
       idx++;

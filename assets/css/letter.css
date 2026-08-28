@@ -28,23 +28,60 @@
   background: linear-gradient(165deg, var(--paper) 0%, var(--paper-deep) 100%);
   clip-path: polygon(0 0, 100% 0, 50% 100%);
   transform-origin: top center; transform-style: preserve-3d;
-  transition: transform 1s var(--ease-pen);
+  transition: transform 1.05s var(--ease-pen);
   box-shadow: 0 3px 6px rgba(20,17,14,0.2);
 }
 .envelope.is-open .envelope-flap { transform: rotateX(178deg); }
 
+@keyframes envelope-lift { 0% { transform: scale(1); } 45% { transform: scale(1.035); } 100% { transform: scale(1); } }
+.envelope.is-opening { animation: envelope-lift 0.7s var(--ease-pen); }
+
 .seal-btn {
   position: absolute; left: 50%; top: 54%; transform: translate(-50%, -50%);
   width: 68px; height: 68px; border-radius: 50%; border: none; cursor: pointer;
-  background: radial-gradient(circle at 35% 30%, #a5414c 0%, var(--accent) 55%, var(--accent-dark) 100%);
+  overflow: hidden;
+  background: var(--seal-color, var(--accent));
   color: #f6e9dc; font-size: 1.6rem; z-index: 5;
   box-shadow: 0 8px 16px rgba(10,8,7,0.45), inset 0 -3px 6px rgba(0,0,0,0.3);
   transition: transform 0.2s var(--ease-pen), opacity 0.3s ease;
 }
+.seal-btn::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.5), transparent 60%);
+  mix-blend-mode: soft-light;
+}
 .seal-btn:hover { transform: translate(-50%, -50%) scale(1.06); }
 .envelope.is-open .seal-btn { opacity: 0; pointer-events: none; }
 
+@keyframes seal-crack {
+  0% { transform: translate(-50%, -50%) scale(1); filter: brightness(1); }
+  30% { transform: translate(-50%, -50%) scale(0.85); }
+  55% { transform: translate(-50%, -50%) scale(1.18); filter: brightness(1.7); }
+  100% { transform: translate(-50%, -50%) scale(1); filter: brightness(1); }
+}
+.seal-btn.is-cracking { animation: seal-crack 0.4s var(--ease-pen) forwards; pointer-events: none; }
+
 .tap-hint { margin-top: var(--space-4); font-size: var(--step-small); opacity: 0.6; }
+
+/* ---------- opening flourish ---------- */
+.light-flash {
+  position: fixed; inset: 0; z-index: 15; pointer-events: none; opacity: 0;
+  background: radial-gradient(circle at 50% 45%, rgba(255,250,235,0.9), transparent 60%);
+}
+@keyframes light-flash-anim { 0% { opacity: 0; } 30% { opacity: 0.55; } 100% { opacity: 0; } }
+.light-flash.is-flashing { animation: light-flash-anim 0.8s ease-out; }
+
+.flourish-particle {
+  position: absolute; left: 50%; top: 54%; pointer-events: none; line-height: 1; z-index: 6;
+  transform: translate(-50%, -50%);
+  animation: flourish-float 1.2s ease-out forwards;
+}
+.flourish-particle.confetti { border-radius: 2px; }
+@keyframes flourish-float {
+  0% { opacity: 0; transform: translate(-50%, -50%) translate(0, 0) rotate(0deg) scale(0.6); }
+  18% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(1); }
+}
 
 /* ---------- paper stage ---------- */
 .paper-stage {
@@ -55,6 +92,7 @@
 .paper-stage.is-visible { opacity: 1; transform: translateY(0); }
 
 #letterPaper { min-height: 360px; }
+.letter-motif { position: absolute; top: var(--space-4); left: var(--space-5); font-size: 1.3rem; opacity: 0.35; margin: 0; }
 .letter-date { position: absolute; top: var(--space-4); right: var(--space-5); font-size: var(--step-caption); opacity: 0.6; }
 .letter-body {
   font-size: 1.4rem; line-height: 1.65; white-space: pre-wrap; margin-top: var(--space-5);

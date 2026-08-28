@@ -12,7 +12,7 @@ anyone can run their own copy.
 There's no backend and no database. A letter is small object —
 
 ```js
-{ to, from, body, hand, ink, paper, date, photo }
+{ to, from, body, hand, ink, paper, theme, date, photo }
 ```
 
 — that gets compressed and packed directly into the link itself
@@ -22,21 +22,51 @@ Nothing is ever sent to, or stored on, a server. That means:
 - Anyone can host this for free on GitHub Pages, Netlify, Vercel, or any
   static file host — there's no server cost to keep it running.
 - There's nothing to leak. Whoever holds the link holds the letter.
-- The trade-off: a link with a photo attached is a long link. Skipping
-  the photo keeps it short enough for anything, including SMS.
+- The trade-off: a link with a photo embedded in it is a long link.
+  Pasting a link to a photo you've already put online instead (rather
+  than uploading it) keeps things short — see "Keeping the link short"
+  below.
+
+### Keeping the link short
+
+Letters are compressed with the browser's native `deflate-raw` codec
+(all current browsers support it), which produces a noticeably shorter
+link than plain text — older browsers fall back to
+[lz-string](https://github.com/pieroxy/lz-string) automatically, and
+either kind of link always opens correctly. Beyond that:
+
+- **Skip the photo, or link to one instead.** The composer lets you
+  paste a link to a photo you've already put online (Google Photos,
+  imgur, your own site) instead of uploading one. That keeps the letter
+  link just as short as a text-only letter, since only the link itself
+  — not the image data — gets packed in.
+- **Uploaded photos are compressed automatically** (resized and
+  re-encoded as WebP, with a JPEG fallback for browsers that can't
+  make WebP) before they're embedded, but they'll always make the link
+  longer than linking to a photo would.
+- **A public URL shortener isn't used on purpose.** It would need to
+  store your letter on a third party's server to make the short link
+  work — which is exactly the kind of server this project is trying
+  not to need. If you want that trade-off for your own deployment, it's
+  a small addition (see `buildShareUrl` in `codec.js`).
 
 ## Features
 
+- Six occasion themes (Classic, Love, Valentine's, Birthday, Thank You,
+  Congrats) that set the wax seal color/icon and the burst of confetti
+  or hearts that flies out when the envelope opens.
 - A composer with five handwriting fonts, four ink colors, and four paper
   styles, previewed live as you write.
 - An optional photo attachment (resized and compressed client-side).
-- A recipient view with an envelope you tap to open, followed by the
-  letter being handwritten in front of you in real time, at a natural,
-  slightly uneven pace.
+- A recipient view with a wax-sealed envelope: tap to crack the seal,
+  watch it swing open with a burst of the theme's flourish and a flash
+  of light, then the letter is handwritten in front of you at a slow,
+  natural, slightly uneven reading pace — not typed, read.
 - Share via WhatsApp, email, the native share sheet, or a plain copyable
   link.
-- Respects `prefers-reduced-motion` (the writing animation is skipped in
-  favor of an instant reveal) and is keyboard-navigable throughout.
+- Respects `prefers-reduced-motion` (the opening flourish and the writing
+  animation are both skipped in favor of an instant reveal) and is
+  keyboard-navigable throughout.
 - Zero build step: plain HTML, CSS, and JavaScript. No framework, no
   bundler, no `node_modules` to install to run it.
 
@@ -77,19 +107,21 @@ assets/
     home.css / write.css / letter.css   page-specific layout
   js/
     codec.js             packs/unpacks a letter into a URL
+    themes.js             occasion presets (seal color/icon, opening flourish)
     lz-string.min.js      vendored compression library (MIT, see below)
     home.js / write.js / letter.js       page-specific behavior
 LICENSE
 CONTRIBUTING.md
 ```
 
-## Adding your own handwriting font, ink, or paper
+## Adding your own handwriting font, ink, paper, or theme
 
 This is one of the easiest ways to contribute — see
 [CONTRIBUTING.md](CONTRIBUTING.md) for the short walkthrough. In short:
 add a font token in `tokens.css`, a utility class in `style.css`, and one
 entry in the `HANDS`/`INKS`/`PAPERS` list in `write.js` (and the matching
-map in `letter.js`).
+map in `letter.js`). Adding an occasion theme (its seal color/icon and
+opening flourish) is a single entry in `assets/js/themes.js`.
 
 ## Credits
 

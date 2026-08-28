@@ -29,7 +29,7 @@
       el.appendChild(caret);
       i++;
       const ch = sample[i - 1];
-      const delay = ch === "\n" ? 260 : ch === "," ? 180 : 32 + Math.random() * 45;
+      const delay = ch === "\n" ? 380 : ch === "," ? 260 : 48 + Math.random() * 55;
       timer = setTimeout(typeNext, delay);
     } else {
       timer = setTimeout(resetLoop, 2600);

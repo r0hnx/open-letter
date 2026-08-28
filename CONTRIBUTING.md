@@ -45,6 +45,35 @@ Add a `.paper--yourstyle` rule in `style.css` (see the existing ones for
 the pattern — they're built from gradients, not image files, so the repo
 stays lightweight), then add it to the `PAPERS` array in `write.js`.
 
+## Adding an occasion theme
+
+Themes (Love, Birthday, and so on) live in one place:
+`assets/js/themes.js`. Add an entry to the `THEMES` array:
+
+```js
+{
+  key: "yourtheme",
+  label: "Your Theme",
+  accentVar: "var(--c-yourtheme)",   // add this token in tokens.css
+  icon: "✦",                          // shown on the wax seal
+  motif: "✦",                         // small corner mark on the paper
+  particles: {
+    shape: "glyph",                   // or "confetti" for rectangles
+    symbols: ["✦", "✧"],              // used when shape is "glyph"
+    colors: ["#a9884f", "#cdb27c"],
+    count: 10,       // how many particles burst out
+    spreadX: 70,      // how far sideways, in px
+    spreadY: 120,     // how far upward, in px
+    spawnJitter: 220, // random stagger between particles, in ms
+    size: 14,         // base font-size (glyph) or width (confetti), in px
+  },
+}
+```
+
+That's it — the theme picker on the composer and the envelope/flourish
+on the recipient view both read from this one array, so nothing else
+needs to change.
+
 ## Guidelines
 
 - No new frameworks or build tooling without discussion first — the
