@@ -1,0 +1,95 @@
+.letter-stage { padding: var(--space-6) 0 var(--space-7); min-height: 70vh; display: flex; align-items: center; justify-content: center; }
+
+/* ---------- envelope ---------- */
+.envelope-wrap { text-align: center; width: 100%; }
+.envelope {
+  position: relative; width: min(400px, 88vw); aspect-ratio: 3 / 2; margin: 0 auto;
+  perspective: 1000px;
+}
+.envelope-pocket {
+  position: absolute; inset: 0; border-radius: 6px;
+  background: linear-gradient(155deg, var(--paper-deep), var(--paper-shadow) 90%);
+  box-shadow: var(--shadow-lift);
+  overflow: hidden;
+}
+.envelope-pocket::before, .envelope-pocket::after {
+  content: ""; position: absolute; top: 0; width: 60%; height: 100%;
+  background: rgba(42,38,34,0.05);
+}
+.envelope-pocket::before { left: -10%; clip-path: polygon(0 0, 100% 100%, 0 100%); }
+.envelope-pocket::after { right: -10%; clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+.envelope-address {
+  position: absolute; left: 12%; bottom: 20%; text-align: left;
+  font-family: var(--font-hand-caveat); font-size: 1.5rem; color: var(--ink-navy);
+  margin: 0;
+}
+.envelope-flap {
+  position: absolute; top: 0; left: 0; right: 0; height: 62%;
+  background: linear-gradient(165deg, var(--paper) 0%, var(--paper-deep) 100%);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top center; transform-style: preserve-3d;
+  transition: transform 1s var(--ease-pen);
+  box-shadow: 0 3px 6px rgba(20,17,14,0.2);
+}
+.envelope.is-open .envelope-flap { transform: rotateX(178deg); }
+
+.seal-btn {
+  position: absolute; left: 50%; top: 54%; transform: translate(-50%, -50%);
+  width: 68px; height: 68px; border-radius: 50%; border: none; cursor: pointer;
+  background: radial-gradient(circle at 35% 30%, #a5414c 0%, var(--accent) 55%, var(--accent-dark) 100%);
+  color: #f6e9dc; font-size: 1.6rem; z-index: 5;
+  box-shadow: 0 8px 16px rgba(10,8,7,0.45), inset 0 -3px 6px rgba(0,0,0,0.3);
+  transition: transform 0.2s var(--ease-pen), opacity 0.3s ease;
+}
+.seal-btn:hover { transform: translate(-50%, -50%) scale(1.06); }
+.envelope.is-open .seal-btn { opacity: 0; pointer-events: none; }
+
+.tap-hint { margin-top: var(--space-4); font-size: var(--step-small); opacity: 0.6; }
+
+/* ---------- paper stage ---------- */
+.paper-stage {
+  width: 100%; max-width: 640px; margin: 0 auto;
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.6s var(--ease-pen), transform 0.6s var(--ease-pen);
+}
+.paper-stage.is-visible { opacity: 1; transform: translateY(0); }
+
+#letterPaper { min-height: 360px; }
+.letter-date { position: absolute; top: var(--space-4); right: var(--space-5); font-size: var(--step-caption); opacity: 0.6; }
+.letter-body {
+  font-size: 1.4rem; line-height: 1.65; white-space: pre-wrap; margin-top: var(--space-5);
+  position: relative;
+}
+.letter-body .ch { color: transparent; }
+.letter-body .ch.revealed { color: inherit; }
+
+.pen-cursor {
+  position: absolute; width: 2px; border-radius: 1px; background: currentColor;
+  opacity: 0; pointer-events: none; transition: left 0.05s linear, top 0.05s linear, opacity 0.3s ease;
+  color: var(--ink-navy);
+}
+
+.letter-signature {
+  margin-top: var(--space-5); font-size: 1.3rem; text-align: right;
+  opacity: 0; transform: translateY(8px); transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.letter-signature.is-shown { opacity: 1; transform: translateY(0); }
+
+.letter-photo-wrap {
+  margin: 0 0 var(--space-4); opacity: 0; transform: translateY(14px) rotate(-3deg);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.letter-photo-wrap.is-shown { opacity: 1; transform: translateY(0) rotate(-2deg); }
+.letter-photo-wrap img { max-width: 50%; border: 6px solid #fff; box-shadow: var(--shadow-paper); }
+
+.letter-actions {
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+  gap: var(--space-3); margin-top: var(--space-4);
+}
+.letter-actions .btn-quiet[hidden] { display: none; }
+
+/* ---------- empty state ---------- */
+.empty-state { max-width: 480px; text-align: center; margin: 0 auto; }
+.empty-eyebrow { font-size: var(--step-caption); text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: var(--space-3); }
+.empty-state h1 { font-family: var(--font-display); font-size: var(--step-h2); margin-bottom: var(--space-3); }
+.empty-state p { opacity: 0.75; margin-bottom: var(--space-5); }

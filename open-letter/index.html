@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open Letter — write a real letter, in your own hand</title>
+<meta name="description" content="A free, open-source way to write a letter and send it as a link. When they open it, they watch it get written — live, in your handwriting.">
+<meta name="theme-color" content="#1b1815">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2246%22 fill=%22%238c2f39%22/><text x=%2250%22 y=%2264%22 font-size=%2255%22 text-anchor=%22middle%22 fill=%22%23f6e9dc%22 font-family=%22serif%22>&#9993;</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/home.css">
+</head>
+<body class="chrome-bg">
+
+<header class="container">
+  <nav class="site-nav">
+    <a class="brand" href="index.html"><span class="brand-mark">✒</span> Open Letter</a>
+    <div class="nav-links">
+      <a class="nav-link" href="https://github.com/" target="_blank" rel="noopener">Open source ↗</a>
+      <a class="btn btn-seal btn-sm" href="write.html">Write a letter</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- ============ HERO ============ -->
+  <section class="hero container">
+    <div class="hero-copy">
+      <p class="eyebrow">Free. Open source. No account, no ads.</p>
+      <h1 class="hero-title">Give them<br>something to open.</h1>
+      <p class="hero-lead">
+        Write a letter in your own hand. Seal it, and send a link. When they
+        open it, they don't just read it — they watch it get written,
+        stroke by stroke, the way it felt when you wrote it.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-seal" href="write.html">Start writing — it's free</a>
+        <a class="btn btn-ghost" href="#how">See how it works</a>
+      </div>
+      <p class="hero-meta">Nothing is stored on a server — your letter lives entirely inside the link you send. <a href="https://github.com/" target="_blank" rel="noopener">Fork it on GitHub →</a></p>
+    </div>
+
+    <div class="hero-demo" aria-hidden="true">
+      <div class="paper-card paper--parchment demo-card" style="--rot:-2.5deg">
+        <div class="grain"></div>
+        <p class="demo-date ink-charcoal">3 March</p>
+        <p class="demo-text ink-navy" id="demoText"></p>
+      </div>
+      <div class="postmark demo-postmark">✒</div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section id="how" class="how-section">
+    <div class="container">
+      <p class="eyebrow eyebrow--dark">How it works</p>
+      <h2 class="section-title">Three steps, like mailing anything else</h2>
+
+      <ol class="steps">
+        <li class="step">
+          <span class="postmark">1</span>
+          <div>
+            <h3>Write it out</h3>
+            <p>Put your words on the page — plainly, the way you'd actually say them out loud.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="postmark">2</span>
+          <div>
+            <h3>Choose your hand</h3>
+            <p>Pick the handwriting, ink, and paper that feel like you — or like the moment.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="postmark">3</span>
+          <div>
+            <h3>Send the letter</h3>
+            <p>Share the link however you like. They open the envelope, and it's written in front of them, live.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ WHY FREE / OPEN SOURCE ============ -->
+  <section class="oss-section chrome-bg">
+    <div class="container oss-grid">
+      <div>
+        <p class="eyebrow">Why it's free</p>
+        <h2 class="section-title section-title--light">A letter shouldn't need a server.</h2>
+        <p class="oss-copy">
+          Every letter is compressed and packed straight into its own link —
+          so there's no database holding your words, no account required, and
+          nothing to keep paying for. That also means anyone can run this
+          project themselves, for free, forever.
+        </p>
+        <p class="oss-copy">
+          The whole thing is open source under the MIT license. Read the code,
+          change the paper textures, add your own handwriting font, or host
+          your own copy for your community.
+        </p>
+        <a class="btn btn-ghost" href="https://github.com/" target="_blank" rel="noopener">View the source →</a>
+      </div>
+      <div class="oss-card">
+        <pre class="code-snippet"><code>// a letter is just data —
+// no server ever sees it
+{
+  to: "Amma",
+  from: "Kiran",
+  hand: "kalam",
+  ink: "sepia",
+  paper: "aged"
+}
+<span class="code-arrow">↓ packed into a link ↓</span>
+yoursite.com/letter.html?d=N4Ig...</code></pre>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer container">
+  <span>© <span id="year"></span> Open Letter — an open-source project.</span>
+  <span><a href="https://github.com/" target="_blank" rel="noopener">GitHub</a> · <a href="LICENSE">MIT License</a> · <a href="write.html">Write a letter</a></span>
+</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="assets/js/home.js"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+/*
+  Open Letter — design tokens
+  A paper-and-ink identity: aged parchment, fountain-pen navy,
+  oxblood wax, and brass. Deliberately not the default
+  cream + terracotta AI palette — this one is aged, inky, postal.
+*/
+
+:root {
+  /* ---- color: paper ---- */
+  --paper: #f3ecdd;          /* warm parchment, base surface */
+  --paper-deep: #e9dfc7;      /* slightly deeper panel on parchment */
+  --paper-shadow: #cfc0a0;    /* aged edge / vignette / rules */
+  --paper-line: #cdbfa0;      /* faint ruled-line color */
+
+  /* ---- color: ink & accent ---- */
+  --ink-navy: #2b3a55;        /* fountain-pen blue-black, default ink */
+  --ink-charcoal: #2a2622;    /* warm near-black ink / body text */
+  --ink-sepia: #6b4a2b;       /* sepia ink option */
+  --ink-oxblood: #7a2530;     /* oxblood ink option */
+
+  --accent: #8c2f39;          /* deep sealing-wax red — CTAs, links, seal */
+  --accent-dark: #6c2129;
+  --brass: #a9884f;           /* aged brass/gold — dividers, stamps, foil */
+  --brass-light: #cdb27c;
+
+  --ok: #3f6b4a;
+  --surface-0: #fffdf8;       /* near-white card surface, e.g. inputs */
+
+  /* ---- type families ---- */
+  --font-display: "Fraunces", "Iowan Old Style", ui-serif, Georgia, serif;
+  --font-ui: "Karla", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* handwriting fonts (used only for actual letter content) */
+  --font-hand-caveat: "Caveat", cursive;
+  --font-hand-apple: "Homemade Apple", cursive;
+  --font-hand-kalam: "Kalam", cursive;
+  --font-hand-shadows: "Shadows Into Light", cursive;
+  --font-hand-patrick: "Patrick Hand", cursive;
+
+  /* ---- type scale ---- */
+  --step-caption: 0.75rem;
+  --step-small: 0.9rem;
+  --step-body: 1.05rem;
+  --step-lead: 1.25rem;
+  --step-h3: 1.5rem;
+  --step-h2: clamp(1.8rem, 1.4rem + 1.6vw, 2.6rem);
+  --step-h1: clamp(2.4rem, 1.7rem + 3vw, 4.2rem);
+
+  /* ---- spacing ---- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.85rem;
+  --space-4: 1.25rem;
+  --space-5: 2rem;
+  --space-6: 3.25rem;
+  --space-7: 5rem;
+
+  /* ---- misc ---- */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --deckle: 2px; /* torn-edge feel via clip-path noise, see .paper-card */
+  --shadow-paper: 0 1px 1px rgba(42,38,34,0.06), 0 8px 24px -12px rgba(42,38,34,0.35);
+  --shadow-lift: 0 18px 40px -16px rgba(42,38,34,0.45);
+  --ease-pen: cubic-bezier(.34,.9,.32,1);
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Letters are a paper artifact — we intentionally keep the paper
+     surfaces light even in dark mode (a lit page in a dark room),
+     but we dim the chrome around them. */
+  :root {
+    --chrome-bg: #1b1815;
+    --chrome-fg: #e9dfc7;
+  }
+}

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Write a letter — Open Letter</title>
+<meta name="description" content="Write your letter, choose your handwriting, ink, and paper, then get a link to send.">
+<meta name="theme-color" content="#1b1815">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/write.css">
+</head>
+<body class="chrome-bg">
+
+<header class="container">
+  <nav class="site-nav">
+    <a class="brand" href="index.html"><span class="brand-mark">✒</span> Open Letter</a>
+    <div class="nav-links">
+      <a class="nav-link" href="https://github.com/" target="_blank" rel="noopener">Open source ↗</a>
+    </div>
+  </nav>
+</header>
+
+<main class="container composer-layout">
+  <section class="composer-form">
+    <h1 class="composer-title">Write your letter</h1>
+    <p class="composer-sub">This never touches a server — it's packed straight into the link you'll get at the end.</p>
+
+    <div class="field">
+      <label for="toName">To</label>
+      <input type="text" id="toName" placeholder="Amma" maxlength="60" autocomplete="off">
+    </div>
+
+    <div class="field">
+      <label for="body">Your letter</label>
+      <textarea id="body" placeholder="Dear Amma,
+
+I know I don't write enough..." maxlength="4000"></textarea>
+      <p class="field-hint" id="lengthHint">0 characters</p>
+    </div>
+
+    <div class="field">
+      <label for="fromName">Signed</label>
+      <input type="text" id="fromName" placeholder="Kiran" maxlength="60" autocomplete="off">
+    </div>
+
+    <div class="field">
+      <label id="handLabel">Handwriting</label>
+      <div class="swatch-row" role="group" aria-labelledby="handLabel" id="handRow"></div>
+    </div>
+
+    <div class="field">
+      <label id="inkLabel">Ink</label>
+      <div class="swatch-row" role="group" aria-labelledby="inkLabel" id="inkRow"></div>
+    </div>
+
+    <div class="field">
+      <label id="paperLabel">Paper</label>
+      <div class="swatch-row" role="group" aria-labelledby="paperLabel" id="paperRow"></div>
+    </div>
+
+    <div class="field">
+      <label for="photoInput">Photo (optional)</label>
+      <div class="photo-field">
+        <input type="file" id="photoInput" accept="image/*">
+        <div class="photo-preview" id="photoPreview" hidden>
+          <img id="photoPreviewImg" alt="Attached photo preview">
+          <button type="button" class="btn btn-quiet btn-sm" id="removePhotoBtn">Remove</button>
+        </div>
+      </div>
+      <p class="field-hint">Adds the photo straight into the link — keep it small, or skip it for a shorter link.</p>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-seal" id="generateBtn">Seal &amp; create link</button>
+    </div>
+  </section>
+
+  <aside class="composer-preview">
+    <p class="preview-label">Preview</p>
+    <div class="paper-card paper--parchment" id="previewCard">
+      <div class="grain"></div>
+      <p class="preview-date" id="previewDate"></p>
+      <div class="preview-photo-wrap" id="previewPhotoWrap" hidden>
+        <img id="previewPhoto" alt="">
+      </div>
+      <p class="preview-body" id="previewBody"></p>
+      <p class="preview-signature" id="previewSignature"></p>
+    </div>
+  </aside>
+</main>
+
+<div class="modal-overlay" id="resultOverlay" hidden>
+  <div class="modal-card chrome-bg" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+    <h2 id="resultTitle">Sealed and ready</h2>
+    <p class="modal-copy">Copy this link and send it however you like — message, email, anything. Anyone who opens it will watch your letter get written.</p>
+
+    <div class="link-row">
+      <input type="text" id="shareLink" readonly aria-label="Shareable letter link">
+      <button class="btn btn-ink btn-sm" id="copyLinkBtn">Copy</button>
+    </div>
+    <p class="length-warning" id="lengthWarning" hidden>This link is on the longer side — some SMS apps may cut it off. WhatsApp, email, or copy-paste will work best.</p>
+
+    <div class="share-row">
+      <a class="btn btn-quiet btn-sm" id="whatsappShare" href="#" target="_blank" rel="noopener">Share on WhatsApp</a>
+      <a class="btn btn-quiet btn-sm" id="emailShare" href="#">Share by email</a>
+      <button class="btn btn-quiet btn-sm" id="webShareBtn" hidden>Share…</button>
+    </div>
+
+    <div class="modal-actions">
+      <a class="btn btn-ghost" id="previewLetterLink" href="#" target="_blank" rel="noopener">Preview as recipient →</a>
+      <button class="btn btn-quiet" id="writeAnotherBtn">Write another</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/lz-string.min.js"></script>
+<script src="assets/js/codec.js"></script>
+<script src="assets/js/write.js"></script>
+</body>
+</html>

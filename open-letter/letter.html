@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You've got a letter — Open Letter</title>
+<meta name="description" content="Someone wrote you a letter. Open the envelope to read it.">
+<meta name="theme-color" content="#1b1815">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/letter.css">
+</head>
+<body class="chrome-bg letter-body-page">
+
+<header class="container">
+  <nav class="site-nav">
+    <a class="brand" href="index.html"><span class="brand-mark">✒</span> Open Letter</a>
+    <div class="nav-links">
+      <a class="nav-link" href="write.html">Write your own →</a>
+    </div>
+  </nav>
+</header>
+
+<main class="container letter-stage">
+
+  <section id="envelopeStage" class="envelope-wrap" hidden>
+    <div class="envelope" id="envelope">
+      <div class="envelope-pocket"></div>
+      <p class="envelope-address" id="envelopeAddress"></p>
+      <div class="envelope-flap" id="envelopeFlap"></div>
+      <button class="seal-btn" id="sealBtn" aria-label="Break the seal to read your letter">✒</button>
+    </div>
+    <p class="tap-hint">Tap the seal to open it</p>
+  </section>
+
+  <section id="paperStage" class="paper-stage" hidden>
+    <div class="paper-card paper--parchment" id="letterPaper">
+      <div class="grain"></div>
+      <p class="letter-date" id="letterDate"></p>
+      <div class="letter-photo-wrap" id="letterPhotoWrap" hidden>
+        <img id="letterPhoto" alt="A photo attached to the letter">
+      </div>
+      <p class="letter-body" id="letterBody"></p>
+      <span class="pen-cursor" id="penCursor" aria-hidden="true"></span>
+      <p class="letter-signature" id="letterSignature"></p>
+    </div>
+    <div class="letter-actions">
+      <button class="btn btn-quiet btn-sm" id="skipBtn">Skip the writing</button>
+      <a class="btn btn-ghost btn-sm" href="write.html">Write your own letter back →</a>
+    </div>
+  </section>
+
+  <section id="emptyState" class="empty-state" hidden>
+    <p class="empty-eyebrow">Nothing here</p>
+    <h1>This link didn't bring a letter with it.</h1>
+    <p>It may have been cut short when it was shared. Ask for it again, or write your own.</p>
+    <a class="btn btn-seal" href="write.html">Write a letter</a>
+  </section>
+
+</main>
+
+<footer class="site-footer container">
+  <span>Open Letter — a free, open-source project.</span>
+  <span><a href="https://github.com/" target="_blank" rel="noopener">GitHub</a> · <a href="LICENSE">MIT License</a></span>
+</footer>
+
+<script src="assets/js/lz-string.min.js"></script>
+<script src="assets/js/codec.js"></script>
+<script src="assets/js/letter.js"></script>
+</body>
+</html>
