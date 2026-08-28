@@ -33,8 +33,25 @@
 }
 .envelope.is-open .envelope-flap { transform: rotateX(178deg); }
 
-@keyframes envelope-lift { 0% { transform: scale(1); } 45% { transform: scale(1.035); } 100% { transform: scale(1); } }
-.envelope.is-opening { animation: envelope-lift 0.7s var(--ease-pen); }
+@keyframes envelope-lift {
+  0% { transform: scale(1) rotate(0deg); }
+  20% { transform: scale(1.04) rotate(1deg); }
+  45% { transform: scale(1.02) rotate(-1deg); }
+  70% { transform: scale(1.01) rotate(0deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+@keyframes envelope-open-flap {
+  0% { transform: rotateX(0deg); }
+  40% { transform: rotateX(15deg); }
+  80% { transform: rotateX(175deg); }
+  100% { transform: rotateX(178deg); }
+}
+.envelope.is-opening {
+  animation: envelope-lift 1.1s var(--ease-pen);
+}
+.envelope.is-opening .envelope-flap {
+  animation: envelope-open-flap 0.9s var(--ease-pen) forwards;
+}
 
 .seal-btn {
   position: absolute; left: 50%; top: 54%; transform: translate(-50%, -50%);
@@ -66,10 +83,15 @@
 /* ---------- opening flourish ---------- */
 .light-flash {
   position: fixed; inset: 0; z-index: 15; pointer-events: none; opacity: 0;
-  background: radial-gradient(circle at 50% 45%, rgba(255,250,235,0.9), transparent 60%);
+  background: radial-gradient(circle at 50% 45%, rgba(255,250,235,0.95), transparent 70%);
 }
-@keyframes light-flash-anim { 0% { opacity: 0; } 30% { opacity: 0.55; } 100% { opacity: 0; } }
-.light-flash.is-flashing { animation: light-flash-anim 0.8s ease-out; }
+@keyframes light-flash-anim {
+  0% { opacity: 0; transform: scale(0.95); }
+  20% { opacity: 0.7; transform: scale(1.05); }
+  40% { opacity: 0.85; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1); }
+}
+.light-flash.is-flashing { animation: light-flash-anim 1.2s ease-out; }
 
 .flourish-particle {
   position: absolute; left: 50%; top: 54%; pointer-events: none; line-height: 1; z-index: 6;
@@ -92,8 +114,8 @@
 .paper-stage.is-visible { opacity: 1; transform: translateY(0); }
 
 #letterPaper { min-height: 360px; }
-.letter-motif { position: absolute; top: var(--space-4); left: var(--space-5); font-size: 1.3rem; opacity: 0.35; margin: 0; }
-.letter-date { position: absolute; top: var(--space-4); right: var(--space-5); font-size: var(--step-caption); opacity: 0.6; }
+.letter-motif { position: absolute; top: var(--space-4); left: var(--space-5); font-size: 1.5rem; opacity: 0.85; margin: 0; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+.letter-date { position: absolute; top: var(--space-4); right: var(--space-5); font-size: var(--step-small); opacity: 0.9; color: var(--ink-charcoal); }
 .letter-body {
   font-size: 1.4rem; line-height: 1.65; white-space: pre-wrap; margin-top: var(--space-5);
   position: relative;

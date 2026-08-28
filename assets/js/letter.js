@@ -35,6 +35,9 @@
       return;
     }
 
+    // Resume audio context on user interaction
+    document.addEventListener('click', () => OpenLetterSound.resume(), { once: true, passive: true });
+
     setupLetter(letter);
   })();
 
@@ -116,8 +119,13 @@
       return;
     }
 
-    // 1. the seal cracks
-    els.sealBtn.classList.add("is-cracking");
+    // Play seal break sound immediately on click
+    OpenLetterSound.playSealBreak().catch(() => {});
+
+    // 1. the seal cracks with a slight delay for audio sync
+    setTimeout(() => {
+      els.sealBtn.classList.add("is-cracking");
+    }, 20);
 
     setTimeout(() => {
       // 2. the envelope lifts, the flap swings open, and the theme's
@@ -125,14 +133,17 @@
       els.envelope.classList.add("is-opening", "is-open");
       spawnParticles(els.envelope, theme);
 
+      // Enhanced light flash - brighter and longer
       setTimeout(() => {
         els.lightFlash.classList.add("is-flashing");
-      }, 400);
+        // Play paper unfold sound as envelope opens
+        OpenLetterSound.playPaperUnfold().catch(() => {});
+      }, 300);
 
       setTimeout(() => {
         els.envelope.classList.remove("is-opening");
         revealPaper();
-      }, 1050);
+      }, 1100);
     }, 400);
   }
 
@@ -161,7 +172,9 @@
         el.style.background = color;
       } else {
         el.textContent = cfg.symbols[i % cfg.symbols.length];
-        el.style.fontSize = cfg.size + Math.random() * 4 + "px";
+        // Random size between 32 and 92
+        const randomSize = 32 + Math.random() * 60;
+        el.style.fontSize = randomSize.toFixed(0) + "px";
         el.style.color = color;
       }
 
@@ -175,6 +188,9 @@
       finishAll(tokens);
       return;
     }
+
+    // Play pen scratch sound as writing begins
+    OpenLetterSound.playPenScratch().catch(() => {});
 
     els.skipBtn.hidden = false;
     let idx = 0;

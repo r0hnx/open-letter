@@ -180,14 +180,30 @@ input[type="text"], textarea {
 textarea { resize: vertical; min-height: 220px; line-height: 1.6; }
 input[type="text"]:focus, textarea:focus { border-color: var(--ink-navy); }
 
-.swatch-row { display: flex; flex-wrap: wrap; gap: 0.6em; }
+@media (max-width: 600px) {
+  input[type="text"], textarea { font-size: var(--step-small); padding: 0.65em 0.8em; }
+  textarea { min-height: 180px; }
+}
+
+.swatch-row { display: flex; flex-wrap: wrap; gap: 0.75em; }
 .swatch {
   border: 1.5px solid var(--paper-shadow); background: var(--surface-0);
-  border-radius: var(--radius-md); padding: 0.5em 0.9em; cursor: pointer;
-  font-size: var(--step-small); display: flex; align-items: center; gap: 0.5em;
+  border-radius: var(--radius-md); padding: 0.65em 1.1em; cursor: pointer;
+  font-size: var(--step-body); display: flex; align-items: center; gap: 0.5em;
+  transition: all 0.2s ease;
+  min-width: 100px;
 }
-.swatch[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
-.swatch-dot { width: 14px; height: 14px; border-radius: 50%; flex: none; }
+.swatch:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(42,38,34,0.15); }
+.swatch[aria-pressed="true"] { border-color: var(--paper-deep); box-shadow: 0 0 0 2px var(--paper-shadow); background: var(--paper-deep); }
+.swatch-theme .swatch-dot { display: none; }
+.swatch-dot { width: 18px; height: 18px; border-radius: 50%; flex: none; }
+.swatch-hand-sample { font-family: var(--font-hand-caveat); font-size: 1.1em; }
+.swatch.is-active { animation: swatch-pulse 0.3s ease; }
+@keyframes swatch-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.12); box-shadow: 0 0 0 6px rgba(42,38,34,0.2); }
+  100% { transform: scale(1); }
+}
 
 /* ---------- footer ---------- */
 .site-footer {

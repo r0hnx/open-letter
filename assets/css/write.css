@@ -1,6 +1,7 @@
 .composer-layout {
-  display: grid; grid-template-columns: 1.05fr 0.95fr; gap: var(--space-6);
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: var(--space-6);
   padding: var(--space-5) 0 var(--space-7);
+  max-width: 1200px; margin: 0 auto;
 }
 .composer-title {
   font-family: var(--font-display); font-weight: 600; font-size: var(--step-h2);
@@ -24,23 +25,34 @@
 /* ---------- live preview ---------- */
 .composer-preview { position: sticky; top: var(--space-5); align-self: start; }
 .preview-label { font-size: var(--step-caption); text-transform: uppercase; letter-spacing: 0.1em; color: var(--chrome-fg, #e9dfc7); opacity: 0.55; margin-bottom: var(--space-3); }
-#previewCard { min-height: 420px; transform: rotate(-0.6deg); }
-.preview-motif { position: absolute; top: var(--space-4); left: var(--space-5); font-size: 1.3rem; opacity: 0.4; margin: 0; }
-.preview-date { position: absolute; top: var(--space-4); right: var(--space-5); font-size: var(--step-caption); opacity: 0.6; }
+#previewCard { min-height: 500px; max-width: 400px; transform: rotate(-0.6deg); }
+.preview-motif { position: absolute; top: var(--space-4); left: var(--space-5); font-size: 1.5rem; opacity: 0.85; margin: 0; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+.preview-date { position: absolute; top: var(--space-4); right: var(--space-5); font-size: var(--step-small); opacity: 0.9; color: var(--ink-charcoal); }
 .preview-body {
-  font-size: 1.35rem; line-height: 1.6; white-space: pre-wrap; margin-top: var(--space-5);
-  min-height: 6em;
+  font-size: 1.45rem; line-height: 1.65; white-space: pre-wrap; margin-top: var(--space-5);
+  min-height: 8em;
+  padding-right: var(--space-2);
 }
-.preview-body:empty::before { content: "Your letter will appear here as you write it…"; opacity: 0.4; font-family: var(--font-ui); font-size: var(--step-small); }
-.preview-signature { margin-top: var(--space-5); font-size: 1.3rem; text-align: right; }
+.preview-body:empty::before { content: "Your letter will appear here as you write it..."; opacity: 0.4; font-family: var(--font-ui); font-size: var(--step-small); }
+.preview-signature { margin-top: var(--space-5); font-size: 1.35rem; text-align: right; }
 .preview-photo-wrap { margin: var(--space-4) 0; }
 .preview-photo-wrap img {
   max-width: 55%; border: 6px solid #fff; box-shadow: var(--shadow-paper); transform: rotate(-2deg);
 }
 
 @media (max-width: 900px) {
-  .composer-layout { grid-template-columns: 1fr; }
-  .composer-preview { position: static; }
+  .composer-layout { grid-template-columns: 1fr; gap: var(--space-5); }
+  .composer-preview { position: static; margin-top: var(--space-5); }
+  #previewCard { max-width: 100%; min-height: 450px; }
+  .preview-body { font-size: 1.35rem; }
+}
+
+@media (max-width: 600px) {
+  .composer-layout { padding: var(--space-4) var(--space-3); }
+  .composer-title { font-size: var(--step-h3); }
+  #previewCard { min-height: 400px; }
+  .preview-body { font-size: 1.25rem; line-height: 1.6; }
+  .preview-signature { font-size: 1.2rem; }
 }
 
 /* ---------- swatch helpers (composer only) ---------- */

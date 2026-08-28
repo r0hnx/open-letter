@@ -27,10 +27,46 @@
   --surface-0: #fffdf8;       /* near-white card surface, e.g. inputs */
 
   /* ---- theme accents (occasion presets — see themes.js) ---- */
+  /* Love & Romance - deep rose, warm gold */
   --c-love: #b83b5e;
+  --c-love-light: #d97f97;
+  --c-love-gold: #e0b354;
+
+  /* Valentine - passionate red, rich gold */
   --c-valentine: #c81d4a;
   --c-valentine-gold: #e0b354;
+  --c-valentine-deep: #8a1538;
+
+  /* Birthday - teal, confetti colors */
   --c-birthday: #2f7a6d;
+  --c-birthday-light: #6fae7d;
+  --c-birthday-gold: #d4af37;
+
+  /* Wedding - elegant ivory, gold, deep navy */
+  --c-wedding: #f8f4e8;
+  --c-wedding-gold: #c9a969;
+  --c-wedding-navy: #1e3a5f;
+
+  /* Anniversary - burgundy, antique gold */
+  --c-anniversary: #7a2530;
+  --c-anniversary-gold: #b8860b;
+
+  /* Sympathy - muted slate, soft lavender */
+  --c-sympathy: #5d6d7e;
+  --c-sympathy-light: #9cabc7;
+
+  /* Friendship - warm terracotta, olive */
+  --c-friendship: #c15419;
+  --c-friendship-light: #e8a87c;
+
+  /* Holiday - deep green, crimson, gold */
+  --c-holiday: #1e5945;
+  --c-holiday-red: #9e2a2b;
+  --c-holiday-gold: #c9a969;
+
+  /* New Year - midnight blue, silver */
+  --c-newyear: #0a2463;
+  --c-newyear-silver: #a8b8c8;
 
   /* ---- type families ---- */
   --font-display: "Fraunces", "Iowan Old Style", ui-serif, Georgia, serif;

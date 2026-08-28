@@ -61,14 +61,19 @@
     THEMES.forEach((t) => {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "swatch";
+      btn.className = "swatch swatch-theme";
       btn.dataset.key = t.key;
       btn.setAttribute("aria-pressed", t.key === state.theme ? "true" : "false");
-      btn.innerHTML = `<span class="swatch-dot" style="background:${t.accentVar}"></span> ${t.icon} ${t.label}`;
+      btn.innerHTML = `${t.icon} ${t.label}`;
       btn.addEventListener("click", () => {
         state.theme = t.key;
         refreshSwatchGroup(els.themeRow, t.key);
         updatePreview();
+        // Play click sound for theme selection
+        OpenLetterSound.playClick().catch(() => {});
+        // Add visual feedback - pulse animation
+        btn.classList.add("is-active");
+        setTimeout(() => btn.classList.remove("is-active"), 300);
       });
       els.themeRow.appendChild(btn);
     });
