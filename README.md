@@ -16,7 +16,7 @@ There's no backend and no database. A letter is small object —
 ```
 
 — that gets compressed and packed directly into the link itself
-(`letter.html?d=...`). Opening the link decodes the letter client-side.
+(`letter.html#d=...`). Opening the link decodes the letter client-side.
 Nothing is ever sent to, or stored on, a server. That means:
 
 - Anyone can host this for free on GitHub Pages, Netlify, Vercel, or any
@@ -26,6 +26,14 @@ Nothing is ever sent to, or stored on, a server. That means:
   Pasting a link to a photo you've already put online instead (rather
   than uploading it) keeps things short — see "Keeping the link short"
   below.
+
+### Privacy: Hash fragments instead of query parameters
+
+The letter data is now stored in the **hash fragment** (`#d=...`) rather than
+query parameters (`?d=...`). This means the encoded letter is never sent to a
+server or included in HTTP referer headers — it stays entirely on your browser,
+making your letters even more private. The app maintains backward compatibility,
+so links created with the old format will still work perfectly.
 
 ### Keeping the link short
 
@@ -130,6 +138,7 @@ opening flourish) is a single entry in `assets/js/themes.js`.
 - Typefaces (Fraunces, Karla, Caveat, Homemade Apple, Kalam, Shadows Into
   Light, Patrick Hand) via [Google Fonts](https://fonts.google.com), all
   open licensed (OFL/Apache).
+- Hash fragment implementation suggested by the community on Reddit.
 
 ## License
 
