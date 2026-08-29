@@ -26,8 +26,9 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   (async () => {
-    const params = new URLSearchParams(location.search);
-    const letter = await OpenLetterCodec.decode(params.get("d"));
+    // Use the new getEncodedFromUrl() function which supports both hash fragments and query parameters
+    const encoded = OpenLetterCodec.getEncodedFromUrl();
+    const letter = await OpenLetterCodec.decode(encoded);
 
     if (!letter || !letter.body) {
       els.emptyState.hidden = false;
