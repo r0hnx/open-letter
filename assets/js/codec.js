@@ -23,6 +23,9 @@
   ("B" or "A") is prepended so a link always decodes correctly no matter
   which scheme made it — including links generated before this feature
   existed, which had no marker at all.
+
+  Fragment Usage: Data is stored in the URL hash fragment (#...) rather than
+  query parameters, providing better privacy (not sent to servers or in referer headers).
 */
 
 const OpenLetterCodec = (() => {
@@ -137,12 +140,28 @@ const OpenLetterCodec = (() => {
     }
   }
 
+  /**
+   * Get the encoded letter data from the current URL fragment
+   * Supports both the new format (#d=...) and legacy query parameter format (?d=...)
+   */
+  function getEncodedFromUrl() {
+    // Try hash fragment first (new format)
+    if (location.hash) {
+      const match = location.hash.slice(1).match(/^d=(.+)$/);
+      if (match) return match[1];
+    }
+    // Fall back to query parameter (legacy format)
+    const params = new URLSearchParams(location.search);
+    return params.get("d");
+  }
+
   async function buildShareUrl(letter, baseUrl) {
     const encoded = await encode(letter);
     const url = new URL(baseUrl || (location.origin + location.pathname.replace(/write\.html$/, "letter.html")));
-    url.search = "?d=" + encoded;
+    // Use hash fragment instead of query parameter
+    url.hash = "d=" + encoded;
     return url.toString();
   }
 
-  return { encode, decode, buildShareUrl };
+  return { encode, decode, buildShareUrl, getEncodedFromUrl };
 })();
